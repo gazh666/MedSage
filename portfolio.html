@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rural AI Doctor · 作品集</title>
+  <title>MedSage（睿医）· 作品集</title>
   <style>
     :root {
       --bg: #0b1220;
@@ -671,13 +671,14 @@
 
   <nav>
     <div class="wrap nav-inner">
-      <div class="brand"><span class="dot"></span> Rural AI Doctor</div>
+      <div class="brand"><span class="dot"></span> MedSage（睿医）</div>
       <div class="nav-links">
         <a href="#features">功能</a>
         <a href="#arch">架构</a>
         <a href="#stack">技术栈</a>
         <a href="#dev2">二次开发</a>
         <a href="#agent">自主 Agent</a>
+        <a href="#engineering">工程化增强</a>
       </div>
     </div>
   </nav>
@@ -685,7 +686,7 @@
   <header>
     <div class="wrap">
       <div class="hero-badge">🏥 面向基层医疗的 AI 辅助诊疗平台 · 全栈项目</div>
-      <h1>Rural AI Doctor<br /><span class="grad">让优质医疗抵达乡村</span></h1>
+      <h1>MedSage（睿医）<br /><span class="grad">让优质医疗抵达乡村</span></h1>
       <p class="hero-sub">
         一个专注农村与低资源临床环境的 AI 辅助诊疗平台：融合对话分诊、多智能体诊断、
         语音问诊、影像/胸片分析、RAG 医学知识检索与肺音听诊，形成从问诊到报告、全程可溯源的一体化医疗服务。
@@ -702,6 +703,20 @@
       </div>
     </div>
   </header>
+
+  <section id="demo" style="padding-top:0">
+    <div class="wrap">
+      <div class="arch">
+        <div class="sec-head" style="margin-bottom:20px">
+          <div class="sec-tag">Live Demo</div>
+          <h2>功能演示视频</h2>
+          <p class="sec-desc">完整展示对话分诊、多智能体诊断、报告生成与证据溯源的核心流程。</p>
+        </div>
+        <video src="Rural_AI_Doctor_demo.mp4" controls playsinline preload="metadata"
+          style="width:100%;border-radius:12px;background:#0a1120;display:block;"></video>
+      </div>
+    </div>
+  </section>
 
   <section id="features">
     <div class="wrap">
@@ -798,8 +813,8 @@
         <div class="layer">
           <div class="layer-tag">智能体层</div>
           <div class="layer-items">
-            <span class="chip hl">LangGraph</span><span class="chip">LangChain</span><span class="chip">Google
-              Gemini</span>
+            <span class="chip hl">LangGraph</span><span class="chip">LangChain</span><span class="chip hl">Qwen / Gemini
+              / DeepSeek / GLM</span>
             <span class="chip hl">AgentHarness</span><span class="chip hl">ReAct Loop</span><span
               class="chip">bind_tools 函数调用</span>
             <span class="chip">分诊 → 症状 → 影像 → RAG → 诊断 → 方案</span>
@@ -870,7 +885,8 @@
         <div class="stack">
           <h3>AI 与智能体</h3>
           <ul>
-            <li>Google Gemini</li>
+            <li>通义千问 Qwen</li>
+            <li>Gemini / DeepSeek / GLM</li>
             <li>LangChain</li>
             <li>LangGraph</li>
             <li>LangSmith</li>
@@ -1042,7 +1058,8 @@
           <rect x="40" y="120" width="240" height="90" rx="14" fill="#132036" stroke="#24344f" stroke-width="1.5" />
           <text x="160" y="158" text-anchor="middle" fill="#e6edf7" font-size="17"
             font-weight="700">LLM（bind_tools）</text>
-          <text x="160" y="182" text-anchor="middle" fill="#8fa3bf" font-size="12.5">Gemini · tool_calls 生成</text>
+          <text x="160" y="182" text-anchor="middle" fill="#8fa3bf" font-size="12.5">Qwen / Gemini · tool_calls
+            生成</text>
           <polygon points="360,165 430,165 395,205 325,205" fill="#16263f" stroke="#24344f" stroke-width="1.5" />
           <text x="395" y="190" text-anchor="middle" fill="#eab308" font-size="12.5" font-weight="700">有
             tool_calls?</text>
@@ -1157,6 +1174,84 @@
     </div>
   </section>
 
+  <section id="engineering">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-tag">Engineering &amp; Evaluation</div>
+        <h2>二次开发：工程化增强与效果评估</h2>
+        <p class="sec-desc">补齐真实 agent 系统最关键的工程底座——可量化效果评估、长期上下文工程，以及国产大模型适配，让「模型 + Prompt + 网页」真正升级为可评测、可上线、可审计的企业级
+          agent。</p>
+      </div>
+
+      <div class="agent-stats">
+        <div class="agent-stat"><b>100%</b><span>诊断命中率（12 / 12）</span></div>
+        <div class="agent-stat"><b>75%</b><span>分诊一致率（9 / 12）</span></div>
+        <div class="agent-stat"><b>0.87</b><span>平均置信度</span></div>
+        <div class="agent-stat"><b>3+</b><span>国产 LLM 适配</span></div>
+      </div>
+
+      <div class="arch dev2">
+        <div class="dev2-grid">
+          <div>
+            <div class="dev2-point">
+              <div class="num">1</div>
+              <div>
+                <h4>离线效果评估体系（新增）</h4>
+                <p>新增 <span style="color:var(--cyan)">backend/scripts/eval_agent.py</span> 与
+                  <span style="color:var(--cyan)">eval_cases.json</span>（12 条专家标注病例），复用线上
+                  DiagnosisAssessment / TriageResponse 标准 schema，量化诊断命中率、分诊一致率与置信度，让效果可度量、可回归。
+                </p>
+              </div>
+            </div>
+            <div class="dev2-point">
+              <div class="num">2</div>
+              <div>
+                <h4>上下文工程（长期记忆 + 历史兜底）</h4>
+                <p>诊断端点自动注入患者档案中的过敏史、慢病史到医学上下文；聊天端点实现服务端历史兜底，从数据库恢复最近会话并做
+                  20 条窗口截断，防止上下文无限增长、避免遗漏长期病史。</p>
+              </div>
+            </div>
+            <div class="dev2-point">
+              <div class="num">3</div>
+              <div>
+                <h4>国产大模型插件化适配（去 Gemini 硬依赖）</h4>
+                <p>LLM 客户端改为 provider 无关，通过环境变量即可切换通义千问 Qwen / DeepSeek / 智谱 GLM 等
+                  OpenAI 兼容接口，无需翻墙即可跑通完整诊断链路。</p>
+              </div>
+            </div>
+          </div>
+          <div class="prob-demo">
+            <div class="title">离线评估结果（qwen-plus · 12 用例）</div>
+            <div class="prob-bar">
+              <div class="row"><span class="cap">诊断命中率</span><span
+                  style="margin-left:auto;color:var(--muted)">100%</span></div>
+              <div class="track">
+                <div class="fill" style="width:100%;background:var(--green)"></div>
+              </div>
+            </div>
+            <div class="prob-bar">
+              <div class="row"><span class="cap">分诊一致率</span><span
+                  style="margin-left:auto;color:var(--muted)">75%</span></div>
+              <div class="track">
+                <div class="fill" style="width:75%;background:var(--cyan)"></div>
+              </div>
+            </div>
+            <div class="prob-bar">
+              <div class="row"><span class="cap">平均置信度</span><span
+                  style="margin-left:auto;color:var(--muted)">0.87</span></div>
+              <div class="track">
+                <div class="fill" style="width:87%;background:var(--violet)"></div>
+              </div>
+            </div>
+            <div class="wf">
+              <div class="title">说明：3 条分诊不一致均偏向「更保守 / 更安全」方向，符合临床安全原则。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="safety">
     <div class="wrap">
       <div class="safety">
@@ -1171,7 +1266,7 @@
 
   <footer>
     <div class="wrap">
-      <div class="brand"><span class="dot"></span> Rural AI Doctor</div>
+      <div class="brand"><span class="dot"></span> MedSage（睿医）</div>
       <div>全栈 · 多智能体 · 多模态 · 可溯源 — 面向基层医疗的 AI 辅助诊疗平台</div>
     </div>
   </footer>
