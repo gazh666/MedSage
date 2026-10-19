@@ -20,6 +20,7 @@ alembic
 # --- AI & Agentic Orchestration ---
 langchain
 langchain-google-genai
+langchain-openai
 langgraph
 langsmith
 langchain-community

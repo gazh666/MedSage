@@ -36,6 +36,39 @@ UNAUTHORIZED_RESPONSE = {
     }
 }
 
+MAX_CONTEXT_MESSAGES = 20
+
+
+async def _merge_server_history(
+    db: AsyncSession,
+    session_id: Optional[str],
+    user_id: int,
+    messages: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """服务端上下文兜底：前端未携带完整历史时，从 DB 恢复最近会话记录。
+
+    仅在 messages 极短（历史丢失 / API 直连）时用服务端历史补全，避免与前端
+    已传来的上下文重复；最后做窗口截断，防止上下文无限增长。
+    """
+    if not session_id:
+        return messages
+    try:
+        result = await db.execute(
+            select(ChatHistory)
+            .where(ChatHistory.session_id == session_id, ChatHistory.user_id == user_id)
+            .order_by(ChatHistory.created_at.desc())
+            .limit(MAX_CONTEXT_MESSAGES)
+        )
+        rows = result.scalars().all()
+        if not rows:
+            return messages
+
+        history = [{"role": r.role, "content": r.content} for r in reversed(rows)]
+        merged = (history + messages) if len(messages) <= 1 else messages
+        return merged[-MAX_CONTEXT_MESSAGES:]
+    except Exception:
+        return messages
+
 RED_FLAG_KEYWORDS = [
     "chest pain",
     "difficulty breathing",
@@ -127,6 +160,7 @@ async def chat(
         
      
         messages = [{"role": msg.role, "content": msg.content} for msg in request.messages]
+        messages = await _merge_server_history(db, session_id, current_user.id, messages)
         
       
         if not messages:

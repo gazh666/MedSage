@@ -6,25 +6,55 @@ import os
 
 T = TypeVar("T")
 
+# OpenAI 兼容 provider（通义 DashScope / DeepSeek / 智谱 GLM 等国内模型）
+_OPENAI_COMPAT_PROVIDERS = {"openai", "dashscope", "qwen", "tongyi", "openai_compatible", "openai-compatible"}
+
+
 class GeminiClient:
     def __init__(self):
-        self.llm: Optional[ChatGoogleGenerativeAI] = None
+        self.llm: Optional[Any] = None
 
-    def _get_llm(self) -> ChatGoogleGenerativeAI:
-        """Create the LLM client lazily to avoid crashing application startup."""
-        if self.llm is not None:
-            return self.llm
+    @property
+    def _provider(self) -> str:
+        return (settings.LLM_PROVIDER or "gemini").strip().lower()
 
+    def _is_openai_compat(self) -> bool:
+        return self._provider in _OPENAI_COMPAT_PROVIDERS
+
+    def _get_openai_compat_llm(self):
+        from langchain_openai import ChatOpenAI
+
+        api_key = settings.LLM_API_KEY or os.environ.get("DASHSCOPE_API_KEY")
+        if not api_key:
+            raise RuntimeError(
+                f"LLM_API_KEY 未配置（provider={self._provider}）。"
+                "请在 .env 中设置 LLM_API_KEY（或 DASHSCOPE_API_KEY）。"
+            )
+        return ChatOpenAI(
+            model=settings.LLM_MODEL or "qwen-plus",
+            api_key=api_key,
+            base_url=settings.LLM_BASE_URL or "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            temperature=0.1,
+            max_retries=2,
+        )
+
+    def _get_gemini_llm(self):
         if not settings.GOOGLE_API_KEY:
             raise RuntimeError("GOOGLE_API_KEY is not configured")
 
         os.environ["GOOGLE_API_KEY"] = settings.GOOGLE_API_KEY
-        self.llm = ChatGoogleGenerativeAI(
-            model="gemini-3.1-flash-lite-preview",
+        return ChatGoogleGenerativeAI(
+            model=settings.GEMINI_MODEL,
             google_api_key=settings.GOOGLE_API_KEY,
             temperature=0.1,
             max_retries=2,
         )
+
+    def _get_llm(self):
+        """Create the LLM client lazily to avoid crashing application startup."""
+        if self.llm is not None:
+            return self.llm
+        self.llm = self._get_openai_compat_llm() if self._is_openai_compat() else self._get_gemini_llm()
         return self.llm
 
     def _normalize_content(self, content: Any) -> str:

@@ -15,6 +15,46 @@ from app.core.deps import get_current_active_user
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
+
+async def _load_patient_notes(db: AsyncSession, current_user: User, request: DiagnosisRequest) -> Optional[str]:
+    """读取患者长期记忆（过敏史 / 慢病史），用于自动注入诊断上下文。"""
+    patient_record = None
+    if request.patient_id:
+        result = await db.execute(
+            select(Patient).where(
+                Patient.id == request.patient_id,
+                Patient.user_id == current_user.id,
+            )
+        )
+        patient_record = result.scalar_one_or_none()
+
+    if patient_record is None:
+        latest = await db.execute(
+            select(Patient)
+            .where(Patient.user_id == current_user.id)
+            .order_by(Patient.id.desc())
+            .limit(1)
+        )
+        patient_record = latest.scalar_one_or_none()
+
+    if patient_record is None:
+        return None
+
+    notes = []
+    if patient_record.allergies:
+        notes.append(f"Known allergies: {patient_record.allergies}")
+    if patient_record.chronic_conditions:
+        notes.append(f"Chronic conditions: {patient_record.chronic_conditions}")
+    return "; ".join(notes) if notes else None
+
+
+async def _enrich_medical_history(db: AsyncSession, current_user: User, request: DiagnosisRequest) -> str:
+    """把患者档案信息并入医学史，供 diagnose / agentic-diagnose 两个端点复用。"""
+    notes = await _load_patient_notes(db, current_user, request)
+    if not notes:
+        return request.medical_history or ""
+    return f"{request.medical_history}; {notes}" if request.medical_history else notes
+
 @router.post(
     "/diagnose", 
     response_model=DiagnosisResponse,
@@ -41,13 +81,16 @@ async def multi_agent_diagnosis(
             else:
                 image_analysis_data = image_record.analysis_result
         
+        # 注入患者长期记忆（过敏史 / 慢病史）到诊断上下文
+        medical_history = await _enrich_medical_history(db, current_user, request)
+
         initial_state: AgentState = {
             "patient_id": request.patient_id,
             "symptoms": request.symptoms,
             "user_location": request.user_location.model_dump() if request.user_location else None,
             "age": request.age,
             "gender": request.gender,
-            "medical_history": request.medical_history,
+            "medical_history": medical_history,
             "vitals": request.vitals.model_dump() if request.vitals else None,
             "has_image": image_analysis_data is not None,
             "image_type": image_analysis_data.get('image_type') if image_analysis_data else None,
@@ -193,6 +236,11 @@ async def agentic_diagnosis(
 
         # 延迟导入，避免启动期加载 torch/模型相关依赖。
         from app.services.agents.react_agent import ReActDiagnosisAgent
+
+        # 注入患者长期记忆（过敏史 / 慢病史）到诊断上下文
+        enriched_history = await _enrich_medical_history(db, current_user, request)
+        if enriched_history != (request.medical_history or ""):
+            request = request.model_copy(update={"medical_history": enriched_history})
 
         agent = ReActDiagnosisAgent()
         agent_result = await agent.run(request, image_analysis=image_analysis_data)

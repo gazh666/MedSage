@@ -1,0 +1,187 @@
+{
+  "metrics": {
+    "total": 12,
+    "diagnosis_accuracy": 1.0,
+    "urgency_accuracy": 0.75,
+    "mean_confidence": 0.8692,
+    "diagnosis_correct": 12,
+    "urgency_correct": 9
+  },
+  "cases": [
+    {
+      "id": 1,
+      "symptoms": "Fever, sore throat, runny nose and dry cough for the past 3 days. No difficulty breathing.",
+      "expected_diagnoses": [
+        "upper respiratory infection",
+        "common cold",
+        "viral pharyngitis"
+      ],
+      "predicted_diagnosis": "Acute Viral Upper Respiratory Infection (Common Cold)",
+      "diagnosis_correct": true,
+      "expected_urgency": "ROUTINE",
+      "predicted_urgency": "ROUTINE",
+      "urgency_correct": true,
+      "confidence": 0.85
+    },
+    {
+      "id": 2,
+      "symptoms": "Persistent thirst, frequent urination, blurred vision and unexplained weight loss over 2 months.",
+      "expected_diagnoses": [
+        "diabetes mellitus",
+        "type 2 diabetes",
+        "hyperglycemia"
+      ],
+      "predicted_diagnosis": "Type 2 Diabetes Mellitus (T2DM), newly diagnosed, likely with significant hyperglycemia",
+      "diagnosis_correct": true,
+      "expected_urgency": "URGENT",
+      "predicted_urgency": "URGENT",
+      "urgency_correct": true,
+      "confidence": 0.92
+    },
+    {
+      "id": 3,
+      "symptoms": "Crushing central chest pain radiating to the left arm with sweating and nausea for 30 minutes.",
+      "expected_diagnoses": [
+        "myocardial infarction",
+        "acute coronary syndrome",
+        "heart attack"
+      ],
+      "predicted_diagnosis": "Acute ST-Elevation Myocardial Infarction (STEMI) — HIGH SUSPICION",
+      "diagnosis_correct": true,
+      "expected_urgency": "EMERGENCY",
+      "predicted_urgency": "EMERGENCY",
+      "urgency_correct": true,
+      "confidence": 0.98
+    },
+    {
+      "id": 4,
+      "symptoms": "Episodes of wheezing, cough and shortness of breath, worse at night and after exercise.",
+      "expected_diagnoses": [
+        "asthma",
+        "reactive airway disease"
+      ],
+      "predicted_diagnosis": "Asthma (likely allergic/exercise-triggered phenotype)",
+      "diagnosis_correct": true,
+      "expected_urgency": "URGENT",
+      "predicted_urgency": "URGENT",
+      "urgency_correct": true,
+      "confidence": 0.85
+    },
+    {
+      "id": 5,
+      "symptoms": "Watery diarrhea, vomiting and abdominal cramps for about 1 day after eating outside food. No blood in stool.",
+      "expected_diagnoses": [
+        "acute gastroenteritis",
+        "food poisoning",
+        "viral gastroenteritis"
+      ],
+      "predicted_diagnosis": "Acute Toxin-Mediated Foodborne Illness (most consistent with Staphylococcus aureus or Bacillus cereus)",
+      "diagnosis_correct": true,
+      "expected_urgency": "ROUTINE",
+      "predicted_urgency": "ROUTINE",
+      "urgency_correct": true,
+      "confidence": 0.92
+    },
+    {
+      "id": 6,
+      "symptoms": "High fever, severe headache and neck stiffness with light sensitivity and confusion.",
+      "expected_diagnoses": [
+        "meningitis",
+        "bacterial meningitis"
+      ],
+      "predicted_diagnosis": "Bacterial Meningitis (Highest Clinical Suspicion)",
+      "diagnosis_correct": true,
+      "expected_urgency": "EMERGENCY",
+      "predicted_urgency": "EMERGENCY",
+      "urgency_correct": true,
+      "confidence": 0.98
+    },
+    {
+      "id": 7,
+      "symptoms": "Burning sensation while urinating, frequent urination and lower abdominal discomfort for 2 days.",
+      "expected_diagnoses": [
+        "urinary tract infection",
+        "cystitis",
+        "uti"
+      ],
+      "predicted_diagnosis": "Acute uncomplicated cystitis",
+      "diagnosis_correct": true,
+      "expected_urgency": "URGENT",
+      "predicted_urgency": "URGENT",
+      "urgency_correct": true,
+      "confidence": 0.92
+    },
+    {
+      "id": 8,
+      "symptoms": "High fever, chills, body aches and fatigue in flu season, started suddenly yesterday.",
+      "expected_diagnoses": [
+        "influenza",
+        "flu"
+      ],
+      "predicted_diagnosis": "Influenza (seasonal)",
+      "diagnosis_correct": true,
+      "expected_urgency": "ROUTINE",
+      "predicted_urgency": "URGENT",
+      "urgency_correct": false,
+      "confidence": 0.85
+    },
+    {
+      "id": 9,
+      "symptoms": "Sudden weakness of the right arm and leg with slurred speech and facial drooping, onset 40 minutes ago.",
+      "expected_diagnoses": [
+        "stroke",
+        "cerebrovascular accident",
+        "ischemic stroke"
+      ],
+      "predicted_diagnosis": "Acute Ischemic Stroke (left middle cerebral artery territory)",
+      "diagnosis_correct": true,
+      "expected_urgency": "EMERGENCY",
+      "predicted_urgency": "EMERGENCY",
+      "urgency_correct": true,
+      "confidence": 0.98
+    },
+    {
+      "id": 10,
+      "symptoms": "Itchy red rash and facial swelling appearing shortly after eating peanuts.",
+      "expected_diagnoses": [
+        "allergic reaction",
+        "anaphylaxis",
+        "food allergy"
+      ],
+      "predicted_diagnosis": "IgE-mediated peanut allergy, likely representing early-stage anaphylaxis (cutaneous + upper airway involvement)",
+      "diagnosis_correct": true,
+      "expected_urgency": "URGENT",
+      "predicted_urgency": "EMERGENCY",
+      "urgency_correct": false,
+      "confidence": 0.98
+    },
+    {
+      "id": 11,
+      "symptoms": "Persistent cough for 3 weeks with night sweats, low-grade fever and weight loss.",
+      "expected_diagnoses": [
+        "tuberculosis",
+        "pulmonary tuberculosis"
+      ],
+      "predicted_diagnosis": "Tuberculosis (high clinical suspicion)",
+      "diagnosis_correct": true,
+      "expected_urgency": "URGENT",
+      "predicted_urgency": "URGENT",
+      "urgency_correct": true,
+      "confidence": 0.85
+    },
+    {
+      "id": 12,
+      "symptoms": "Mild headache, low-grade fever and fatigue for one day, no other symptoms.",
+      "expected_diagnoses": [
+        "viral infection",
+        "mild viral illness"
+      ],
+      "predicted_diagnosis": "Uncomplicated viral illness (most probable)",
+      "diagnosis_correct": true,
+      "expected_urgency": "SELF-CARE",
+      "predicted_urgency": "ROUTINE",
+      "urgency_correct": false,
+      "confidence": 0.35
+    }
+  ]
+}

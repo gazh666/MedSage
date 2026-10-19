@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "symptoms": "Fever, sore throat, runny nose and dry cough for the past 3 days. No difficulty breathing.",
+    "age": 28,
+    "gender": "Female",
+    "expected_diagnoses": ["upper respiratory infection", "common cold", "viral pharyngitis"],
+    "expected_urgency": "ROUTINE"
+  },
+  {
+    "id": 2,
+    "symptoms": "Persistent thirst, frequent urination, blurred vision and unexplained weight loss over 2 months.",
+    "age": 52,
+    "gender": "Male",
+    "expected_diagnoses": ["diabetes mellitus", "type 2 diabetes", "hyperglycemia"],
+    "expected_urgency": "URGENT"
+  },
+  {
+    "id": 3,
+    "symptoms": "Crushing central chest pain radiating to the left arm with sweating and nausea for 30 minutes.",
+    "age": 61,
+    "gender": "Male",
+    "expected_diagnoses": ["myocardial infarction", "acute coronary syndrome", "heart attack"],
+    "expected_urgency": "EMERGENCY"
+  },
+  {
+    "id": 4,
+    "symptoms": "Episodes of wheezing, cough and shortness of breath, worse at night and after exercise.",
+    "age": 19,
+    "gender": "Male",
+    "expected_diagnoses": ["asthma", "reactive airway disease"],
+    "expected_urgency": "URGENT"
+  },
+  {
+    "id": 5,
+    "symptoms": "Watery diarrhea, vomiting and abdominal cramps for about 1 day after eating outside food. No blood in stool.",
+    "age": 34,
+    "gender": "Female",
+    "expected_diagnoses": ["acute gastroenteritis", "food poisoning", "viral gastroenteritis"],
+    "expected_urgency": "ROUTINE"
+  },
+  {
+    "id": 6,
+    "symptoms": "High fever, severe headache and neck stiffness with light sensitivity and confusion.",
+    "age": 15,
+    "gender": "Female",
+    "expected_diagnoses": ["meningitis", "bacterial meningitis"],
+    "expected_urgency": "EMERGENCY"
+  },
+  {
+    "id": 7,
+    "symptoms": "Burning sensation while urinating, frequent urination and lower abdominal discomfort for 2 days.",
+    "age": 26,
+    "gender": "Female",
+    "expected_diagnoses": ["urinary tract infection", "cystitis", "uti"],
+    "expected_urgency": "URGENT"
+  },
+  {
+    "id": 8,
+    "symptoms": "High fever, chills, body aches and fatigue in flu season, started suddenly yesterday.",
+    "age": 40,
+    "gender": "Male",
+    "expected_diagnoses": ["influenza", "flu"],
+    "expected_urgency": "ROUTINE"
+  },
+  {
+    "id": 9,
+    "symptoms": "Sudden weakness of the right arm and leg with slurred speech and facial drooping, onset 40 minutes ago.",
+    "age": 70,
+    "gender": "Male",
+    "expected_diagnoses": ["stroke", "cerebrovascular accident", "ischemic stroke"],
+    "expected_urgency": "EMERGENCY"
+  },
+  {
+    "id": 10,
+    "symptoms": "Itchy red rash and facial swelling appearing shortly after eating peanuts.",
+    "age": 22,
+    "gender": "Female",
+    "expected_diagnoses": ["allergic reaction", "anaphylaxis", "food allergy"],
+    "expected_urgency": "URGENT"
+  },
+  {
+    "id": 11,
+    "symptoms": "Persistent cough for 3 weeks with night sweats, low-grade fever and weight loss.",
+    "age": 45,
+    "gender": "Male",
+    "expected_diagnoses": ["tuberculosis", "pulmonary tuberculosis"],
+    "expected_urgency": "URGENT"
+  },
+  {
+    "id": 12,
+    "symptoms": "Mild headache, low-grade fever and fatigue for one day, no other symptoms.",
+    "age": 30,
+    "gender": "Female",
+    "expected_diagnoses": ["viral infection", "mild viral illness"],
+    "expected_urgency": "SELF-CARE"
+  }
+]

@@ -27,7 +27,14 @@ class Settings(BaseSettings):
     GOOGLE_CLOUD_PROJECT: str = "" 
     VERTEX_AI_LOCATION: str = "us-central1"
     GOOGLE_APPLICATION_CREDENTIALS: str = ""
-    GEMINI_MODEL: str = 'gemini-3.1-flash-lite-preview' 
+    GEMINI_MODEL: str = 'gemini-3.1-flash-lite-preview'
+
+    # --- Pluggable LLM Provider（OpenAI 兼容：通义千问 / DeepSeek / 智谱 GLM）---
+    # 设 LLM_PROVIDER=openai 即切换为国内 OpenAI 兼容模型，无需翻墙。
+    LLM_PROVIDER: str = "gemini"  # gemini | openai
+    LLM_API_KEY: str = ""
+    LLM_BASE_URL: str = ""
+    LLM_MODEL: str = "" 
     
     # UPDATED: Use the new multimodal embedding model
     EMBEDDING_MODEL: str = "models/text-embedding-004"
