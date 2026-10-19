@@ -39,23 +39,36 @@ def ensure_directories():
 def validate_environment():
     """
     Strict validation of critical environment variables.
-    Fails fast if the application lacks credentials to operate.
+    Fails fast (raises) in production when config is unsafe or incomplete.
     """
-    required_vars = [
-        "DATABASE_URL",
-        "GOOGLE_API_KEY",
-        "SECRET_KEY"
-    ]
-    
-    missing_vars = [var for var in required_vars if not getattr(settings, var, None)]
-    
-    if missing_vars:
-        error_msg = f"Missing critical environment variables: {', '.join(missing_vars)}"
-        logger.error(f"❌ {error_msg}")
-        logger.warning("Application might not work correctly, but we will attempt to start anyway.")
-        # DO NOT raise ValueError so Render process stays alive.
-    else:
-        logger.info("✅ Environment validation successful")
+    missing = []
+
+    # SECRET_KEY must never be empty or the legacy placeholder default.
+    secret = getattr(settings, "SECRET_KEY", "") or ""
+    if not secret or secret == "your-secret-key-change-this-in-production":
+        missing.append("SECRET_KEY")
+
+    if not getattr(settings, "DATABASE_URL", None):
+        missing.append("DATABASE_URL")
+
+    # LLM credentials depend on the configured provider (pluggable backend).
+    llm_provider = getattr(settings, "LLM_PROVIDER", "gemini") or "gemini"
+    if llm_provider == "openai":
+        if not getattr(settings, "LLM_API_KEY", ""):
+            missing.append("LLM_API_KEY")
+    elif not getattr(settings, "GOOGLE_API_KEY", ""):
+        missing.append("GOOGLE_API_KEY")
+
+    if missing:
+        error_msg = f"Missing or unsafe critical environment variables: {', '.join(missing)}"
+        if settings.ENVIRONMENT == "production":
+            logger.error(f"❌ {error_msg}")
+            raise RuntimeError(error_msg)
+        logger.warning(f"⚠️ {error_msg} — continuing in {settings.ENVIRONMENT} mode.")
+        return False
+
+    logger.info("✅ Environment validation successful")
+    return True
 
 async def check_database_connection():
     """

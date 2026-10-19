@@ -57,7 +57,7 @@ class Settings(BaseSettings):
     SENTRY_DSN: str = ""  
 
     # --- Security ---
-    SECRET_KEY: str = "your-secret-key-change-this-in-production"
+    SECRET_KEY: str = ""  # 生产环境必须通过环境变量注入，缺失将启动失败（见 production.validate_environment）
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 # Increased for better UX
     

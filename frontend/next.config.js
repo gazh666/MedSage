@@ -12,6 +12,7 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  output: 'standalone',
   
   // Environment variables for client-side access
   env: {

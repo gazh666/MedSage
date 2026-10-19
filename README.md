@@ -137,6 +137,28 @@ MedSage/
 
 ---
 
+## Run with Docker (Full Stack)
+
+One command brings up PostgreSQL (pgvector), Redis, backend, and frontend as containers (`backend/Dockerfile`, `frontend/Dockerfile`, `backend/docker-compose.yml`):
+
+```bash
+cd backend
+SECRET_KEY=<a-strong-random-string> \
+LLM_API_KEY=<your-qwen-key> \
+docker compose up --build
+```
+
+| Service | URL |
+| --- | --- |
+| Frontend | http://localhost:3000 |
+| Backend API | http://127.0.0.1:8000 |
+| PostgreSQL (pgvector) | localhost:5434 |
+| Redis | localhost:6379 |
+
+Model weights and user uploads live in named volumes (mounted at runtime) instead of being baked into the image. For a domestic model backend, override `LLM_PROVIDER` / `LLM_BASE_URL` / `LLM_MODEL` (defaults: `openai` / DashScope / `qwen-plus`).
+
+---
+
 ## Local Development Guide
 
 ### Prerequisites
@@ -145,10 +167,10 @@ MedSage/
 - PostgreSQL 16 with `pgvector`
 - npm
 
-### 1. Database Setup
+### 1. Database & Redis Setup
 ```bash
 cd backend
-docker-compose up -d
+docker compose up -d postgres redis
 ```
 
 ### 2. Environment Variables
